@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  playground:
+    container_name: playground
+    build:
+      context: ./
+      dockerfile: "Dockerfile"
+      network: host
+    image: "playground"
+    volumes:
+      - ./build/libs/playground-1.0-SNAPSHOT.jar:/app/playground.jar
+    ports:
+      - "8080:9000"
+      - "5005:5005"
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge
